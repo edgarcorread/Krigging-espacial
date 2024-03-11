@@ -1,0 +1,863 @@
+---
+title: "TRABAJO FINAL ESPACIAL"
+author: "Edgar Correa"
+date: "18 de julio de 2020"
+output: 
+  pdf_document: default
+  word_document: default
+  html_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Los datos por área , se refieren a los datos que se obtienen sobre lugares geográficos, es decir, lugares en la superficie terrestre. El uso de este tipo de datos reconoce “el rol clave que conceptos espaciales como la distancia, la ubicación, proximidad, vecindario y región juegan en la sociedad humana”, permitiendo enfrentar  fenómenos desde una perspectiva multivariada y multidimensional. Este tipo de datos permite responder preguntas tales como si existe influencia en términos de proximidad de los barrios vecinos sobre la adopción de ciertas políticas, pero también resultan ser una herramienta clave en la exploración de los  datos para observar la existencia de patrones territoriales en los fenómenos estudiados.La figura 1 muestra  un resumen del trabajo a realizar.
+
+
+
+```{r pressure2D, echo=FALSE, fig.cap="Resumen", out.width = '100%'}
+knitr::include_graphics("~/Desktop/des.png")
+```
+
+```{r library,include=FALSE}
+library(sf)
+library(tidyverse)
+library(mvtnorm)
+library(scatterplot3d)
+library(car)
+library(akima)
+library(gstat)
+library(geoR)
+library(lattice)
+library(maptools)
+library(sp)
+library(spatial)
+library(graphics)
+library(BCA)
+library(aplpack)
+library(scatterplot3d)
+library(geoR)
+library(fields)
+library(rgdal)
+require(maptools)
+library(raster)
+library(randomcoloR)
+library(sp)
+library(spdep)
+require(RColorBrewer)
+library(mapview)
+library(readxl)
+library(spatstat)
+library(ggplot2)
+library(ggmap)
+library(maptools)
+library(RANN)
+library(sp)
+library(maptools)
+library(spdep)
+library(rgdal)
+require(sf)
+library(spData)
+library("countreg")
+library(pscl)
+
+
+
+```
+
+```{r datos,include=FALSE}
+radios <- st_read("https://bitsandbricks.github.io/data/CABA_rc.geojson")
+deli<-st_read("~/Desktop/deli.geojson")
+del <- read_excel("Desktop/del.xlsx")
+reg<-st_read("~/Desktop/reg.geojson")
+regespa <- read_excel("Documents/Datos de usuario de Microsoft/Office 2011 AutoRecovery/regespa.xlsx")
+ate_ <- read_excel("Documents/ate_.xlsx")
+```
+
+
+# 1. Problema
+## 1.1. Contexto
+
+Un delito es una acción que va en contra de lo establecido por la ley y que es castigada por ella con una pena grave.En la ciudad de Buenos Aires desde el año 2017 se creo la estrategia del mapa de delitos , El Mapa del Delito es una herramienta online con estadísticas fiables de criminalidad en la Ciudad. Gracias a estos datos, es posible dimensionar el problema de la inseguridad, establecer patrones, realizar diagnósticos certeros y evaluar la efectividad de nuestras respuestas.En este caso se toma el registro de los primeros 5 dias de  delitos en 2019 y a partir de este se busca establecer un modelo donde se pueda evidenciar que variables hacen mas probable la ocurrencia de un delito y como este se evidencia en los barrios de la capital Argentina
+
+
+
+## 1.2. Variables
+Las variables que se tienen en cuenta son:
+Robos: es un delito contra el patrimonio, consistente en el apoderamiento de bienes ajenos de otras personas de manera fraudulenta, empleando para ello fuerza en las cosas o bien violencia o intimidación en las personas,en este caso se presentan los robos registrados  los primeros 5 dias de año en Buenos  Aires
+Hogares NBI: El concepto de necesidades básicas insatisfechas (NBI) permite la delimitación de grupos de pobreza estructural y representa una alternativa a la identificación de la pobreza considerada únicamente como insuficiencia de ingresos.
+Hogares:se usa para designar a un lugar donde un individuo o grupo de individuos habita.
+Viviendas: Es todo aquello que se ha construido, adaptado o dispuesto para el alojamiento de personas.
+
+```{r summary,out.width = '40%',fig.align="center"}
+summary(radios)
+
+#mapView(radios)
+```
+
+# 2. Samplig desing
+
+## 2.1. Superficie
+
+ Primero se evidencian las calles de la ciudad de Buenos Aires.
+ 
+```{r plot,out.width = '40%',fig.align="center"}
+ggplot() + geom_sf(data = radios)
+```
+
+
+## 2.2. Puntos
+Los puntos amarillos son cada uno de los delitos registrados.
+
+```{r plot1,out.width = '40%',fig.align="center"}
+ggplot() + geom_sf(data = radios)+
+geom_sf(data = deli,color="yellow",size=0.3) +
+  labs(title = "5 dias de Delitos",
+       subtitle = "Ciudad de Buenos Aires-2019")
+
+```
+
+## 2.3. Mapeo
+
+La gráfica  permite mostrar donde se concentran la mayoria de puntos que hacen alucion a los delitos en los primeros 5 dias de 2019.
+
+```{r plot2,out.width = '40%',fig.align="center"}
+cx<-del$lat
+cy<-del$long
+patron<-ppp(cy,cx,c(-58.54,-58.35),c(-34.7,-34.53))
+plot(patron, main="")
+plot(patron, main="Aleatorio",size=0.4)
+summary(patron)
+plot(density(patron),main="Robos ")
+contour(density(patron),add=TRUE)
+
+```
+
+```{r geo1,include=FALSE}
+barrios_geo_ <- radios %>% 
+  group_by(BARRIO) %>% 
+  summarise(POBLACION = sum(POBLACION),
+            VIVIENDAS = sum(VIVIENDAS),
+            HOGARES = sum(HOGARES),
+            HOGARES_NBI = sum(HOGARES_NBI),
+            AREA_KM2 = sum(AREA_KM2))
+
+barrios_geo<-barrios_geo_%>% left_join(ate_)
+```
+
+
+```{r plot31,out.width = '40%',fig.align="center"}
+dpat<-as_data_frame(density(patron))
+write.csv(dpat,file="dpat.csv")
+densi<-st_read("~/Desktop/del1.geojson")
+ggplot()+ geom_sf(data = densi, aes(color =value))
+
+
+```
+
+
+Para hacer un mejor analisis es necesario tener en cuenta el contexto y la forma en que viven las familias en Argentina, por eso se grafica teniendo en cuenta el numero de viviendas 
+
+```{r plot4,out.width = '40%',fig.align="center"}
+
+ggplot() + geom_sf(data = radios, aes(fill = VIVIENDAS))
+
+```
+
+se realiza una división por barrios, siendo en total 48 barrios dicha división se realiza para enteder y realizar una mejor interpretación
+
+```{r pressure2, echo=FALSE, fig.cap="Barrios", out.width = '100%',fig.align="center"}
+knitr::include_graphics("~/Desktop/map.png")
+```
+
+```{r plot6, echo=FALSE}
+barrios_geo_ <- radios %>% 
+  group_by(BARRIO) %>% 
+  summarise(POBLACION = sum(POBLACION),
+            VIVIENDAS = sum(VIVIENDAS),
+            HOGARES = sum(HOGARES),
+            HOGARES_NBI = sum(HOGARES_NBI),
+            AREA_KM2 = sum(AREA_KM2))
+barrios_geo<-barrios_geo_%>% left_join(ate_)
+```
+
+
+```{r p12, echo=FALSE}
+ates<- del %>% 
+  group_by(BARRIO) %>% 
+  summarise(robos = sum(cantidad_registrada))
+
+bar<- barrios_geo_ %>% left_join(ates)
+barr<-bar%>% left_join(ates)
+
+ats<- del %>% 
+  group_by(BARRIO) %>% 
+  summarise(fran = exp(mean(log(franja_horaria))))
+base_<-barr%>% left_join(ats)
+
+barrios_geo<-base_%>% left_join(ate_)
+```
+
+```{r plot32,out.width = '40%',fig.align="center"}
+ggplot()+ geom_sf(data = densi, aes(color =value))+ geom_sf(data = barrios_geo, alpha = .01) +geom_smooth(se = FALSE) 
+
+```
+
+```{r plot9,out.width = '40%',fig.align="center",echo=FALSE}
+ggplot() +
+  geom_sf(data = base_,aes(fill =robos )) +
+  labs(title = "5 dias de Delitos por Barrio",
+       subtitle = "Ciudad de Buenos Aires")
+```
+
+
+
+# 3. Inferencia a partir de Datos Espaciales
+
+Más allá del análisis exploratorio y descriptivo que se puede realizar con los datos espaciales, estos también son de gran utilidad para realizar inferencia sobre la relación entre distintos fenómenos. La inferencia en base a datos espaciales parte de la base de reconocer que las observaciones en el espacio no pueden ser asumidas todo el tiempo como mutuamente independientes, debido a que las observaciones que están cerca la una de la otra son la mayoría del tiempo similares, por lo que se  debe prestar atención a los diferentes patrones de asociación espacial que existen en los fenómenos que estudiamos.
+
+Estos patrones espaciales (que llamamos autocorrelación espacial), miden cómo la distancia influencia una variable en particular, pudiendo ser utilizados como información relevante sobre tipos de influencia que no han sido observadas o consideradas. (Bivand, Pebesma & Gomez-Rubio, 2008: 11).
+
+## 3.1. Modelo sin tener en cuenta autocorrelación espacial
+
+###3.1.1. Modelo Poisson
+
+Se trata de un modelo discreto, pero en el que el conjunto de valores con probabilidad no nula no es finito, sino numerable. Se dice que una variable aleatoria X sigue la distribución de Poisson si su función de densidad viene dada por:
+
+$$f(k)=P[X=k]=\left\{\begin{array}{ll}e^{-\lambda} \frac{\lambda^{k}}{k !} & \text { si } k=012, \ldots \\ 0 & \text { en caso contrario }\end{array}\right\}$$
+
+Esta distribución suele utilizarse para contajes del tipo número de individuos por unidad de tiempo, de espacio, etc.
+
+Se realizan 2 modelos binomiales, en el primero la variable respuesta es el número de robos teniendo en cuenta los hogares con necesidades básicas insatisfechas  y en el segundo la variable respuesta son hogares con necesidades básicas insatisfechas con varibles independientes el numero de viviendas y hogares por barrio.
+
+```{r sp111}
+glmbaseLR <-glm(robos~ HOGARES_NBI ,family = poisson, data=barrios_geo)
+anova(glmbaseLR)
+summary(glmbaseLR)
+barrios_geo$residLR=residuals(glmbaseLR)
+
+glmbaseLMR <-glm(HOGARES_NBI~  VIVIENDAS+HOGARES ,family = poisson, data=barrios_geo)
+anova(glmbaseLMR)
+summary(glmbaseLMR)
+barrios_geo$residLMR=residuals(glmbaseLMR)
+
+```
+
+
+## 3.2. Matriz de Pesos Espaciales
+
+Para realizar este tipo de análisis se debe determinar el set de vecindarios para cada observación, es decir, identificar los polígonos que comparten fronteras entre ellos. Luego,  asignar pesos a cada relación vecina, que permiten definir la fuerza de esta relación en base a cercanía. En las matrices de peso, los vecinos son definidos por un método binario (0,1) en cada fila indicando si existe o no relación.
+
+Existen tres criterios diferentes para calcular los vecindarios:
+
+```{r sp4100,echo=T}
+
+#Physical neighbours
+
+rook_nb_b=nb2listw(poly2nb(barrios_geo,queen=FALSE), style="B",zero.policy = TRUE)
+rook_nb_w=nb2listw(poly2nb(barrios_geo,queen=FALSE), style="W",zero.policy = TRUE)
+
+queen_nb_b=nb2listw(poly2nb(barrios_geo,queen=TRUE), style="B",zero.policy = TRUE)
+queen_nb_w=nb2listw(poly2nb(barrios_geo,queen=TRUE), style="W",zero.policy = TRUE)
+
+
+
+regespa
+xy0=data.frame(x=regespa$lat,y=regespa$long)
+coordinates(xy0) <- c('x','y')
+proj4string(xy0) <- CRS("+init=epsg:4326")
+xy0=spTransform(xy0,CRS("+init=epsg:21897"))
+
+#Gráficos vecinos
+
+trinb=tri2nb(xy0)
+
+
+options(warn = -1)
+tri_nb_b=nb2listw(tri2nb(xy0), style="B",zero.policy = TRUE)
+tri_nb_w=nb2listw(tri2nb(xy0), style="W",zero.policy = TRUE)
+soi_nb_b=nb2listw(graph2nb(soi.graph(trinb,xy0)), style="B",zero.policy = TRUE)
+soi_nb_w=nb2listw(graph2nb(soi.graph(trinb,xy0)), style="W",zero.policy = TRUE)
+
+relative_nb_b=nb2listw(graph2nb(relativeneigh(xy0), sym=TRUE), style="B",zero.policy = TRUE)
+relative_nb_w=nb2listw(graph2nb(relativeneigh(xy0), sym=TRUE), style="W",zero.policy = TRUE)
+
+gabriel_nb_b=nb2listw(graph2nb(gabrielneigh(xy0), sym=TRUE), style="B",zero.policy = TRUE)
+gabriel_nb_w=nb2listw(graph2nb(gabrielneigh(xy0), sym=TRUE), style="W",zero.policy = TRUE)
+
+
+#distancias vecinas K
+
+knn1_nb_b=nb2listw(knn2nb(knearneigh(xy0, k = 1)), style="B",zero.policy = TRUE)
+knn1_nb_w=nb2listw(knn2nb(knearneigh(xy0, k = 1)), style="W",zero.policy = TRUE)
+knn2_nb_b=nb2listw(knn2nb(knearneigh(xy0, k = 2)), style="B",zero.policy = TRUE)
+knn2_nb_w=nb2listw(knn2nb(knearneigh(xy0, k = 2)), style="W",zero.policy = TRUE)
+knn3_nb_b=nb2listw(knn2nb(knearneigh(xy0, k = 3)), style="B",zero.policy = TRUE)
+knn3_nb_w=nb2listw(knn2nb(knearneigh(xy0, k = 3)), style="W",zero.policy = TRUE)
+knn4_nb_b=nb2listw(knn2nb(knearneigh(xy0, k = 4)), style="B",zero.policy = TRUE)
+knn4_nb_w=nb2listw(knn2nb(knearneigh(xy0, k = 4)), style="W",zero.policy = TRUE)
+
+
+```
+
+###3.2.1.Vecinos físicos
+
+```{r pressure3, echo=FALSE, fig.cap="Vecinos físicos", out.width = '40%',fig.align="center"}
+ knitr::include_graphics("~/Desktop/aje.png")
+```
+####3.2.1.1.Rook 
+
+Considera como vecinos a cualquier par de celdas que compartan alguna arista (borde).
+
+```{r sp49922,echo=TRUE,out.width = '40%',fig.align="center"}
+### graficos matrices W
+
+par(mfrow=c(1, 2), mai=c(0,0,0,0))
+
+#Physical neighbours
+plot(barrios_geo$geometry,main="1.rook_nb_b")
+plot(rook_nb_b,st_coordinates(reg), col="red", lwd=2, add=TRUE) #1
+
+plot(barrios_geo$geometry,main="2.rook_nb_w")
+plot(rook_nb_w,st_coordinates(reg), col="red", lwd=2, add=TRUE)#2
+
+
+```
+
+####3.2.1.2.Queen
+
+Considera como vecinos a cualquier par de celdas que compartan alguna arista o un punto.
+
+```{r sp4992212,echo=TRUE,out.width = '40%',fig.align="center"}
+### graficos matrices W
+
+par(mfrow=c(1, 2), mai=c(0,0,0,0))
+
+#Physical neighbours
+plot(barrios_geo$geometry,main="3.queen_nb_b")
+plot(queen_nb_b,st_coordinates(reg), col="blue", lwd=2, add=TRUE)#3
+
+plot(barrios_geo$geometry,main="4.queen_nb_w")
+plot(queen_nb_w,st_coordinates(reg), col="blue", lwd=2, add=TRUE)#4
+
+
+```
+
+
+###3.2.2.Gráficas vecinas
+
+####3.2.2.1.NNG
+El gráfico de vecina más cercana(nearest neighbor graph -NNG)es un gráfico dirigido con P como su conjunto de vértices y con un borde dirigido de p a q siempre que q sea el vecino más cercano de p
+
+```{r sp14992212,echo=TRUE,out.width = '40%',fig.align="center"}
+### graficos matrices W
+
+par(mfrow=c(1, 2), mai=c(0,0,0,0))
+
+#Physical neighbours
+plot(barrios_geo$geometry,main="5.tri_nb_b")
+plot(tri_nb_b,st_coordinates(reg), col="yellow", lwd=2, add=TRUE)#5
+
+plot(barrios_geo$geometry,main="6.tri_nb_w")
+plot(tri_nb_w,st_coordinates(reg), col="yellow", lwd=2, add=TRUE)#6
+
+
+```
+
+####3.2.2.2. SOI
+
+El gráfico de esfera de influencia (sphere-of-influence graph-SOI) utiliza dos círculos donde el diámetro está determinado por los puntos circundantes.En este gráfico, la restricción es que los círculos deben cruzarse.
+
+```{r sp444992212,echo=TRUE,out.width = '40%',fig.align="center"}
+### graficos matrices W
+
+par(mfrow=c(1, 2), mai=c(0,0,0,0))
+
+#Physical neighbours
+plot(barrios_geo$geometry,main="7.soi_nb_b")
+plot(soi_nb_b,st_coordinates(reg), col="pink", lwd=2, add=TRUE)#7
+
+plot(barrios_geo$geometry,main="8.soi_nb_w")
+plot(soi_nb_w,st_coordinates(reg), col="pink", lwd=2, add=TRUE)#8
+
+
+```
+
+####3.2.2.3.Gabriel
+El gráfico de Gabriel funciona con un círculo de diámetro mínimo dibujado a través de solo dos puntos
+
+
+```{r sp34992234,echo=TRUE,out.width = '40%',fig.align="center"}
+### graficos matrices W
+
+par(mfrow=c(2, 2), mai=c(0,0,0,0))
+
+#Graphs neighbours
+
+
+
+plot(barrios_geo$geometry,main="9.gabriel_nb_b")
+plot(gabriel_nb_b,st_coordinates(reg), col="purple", lwd=2, add=TRUE)#9
+
+plot(barrios_geo$geometry,main="10.gabriel_nb_w")
+plot(gabriel_nb_w,st_coordinates(reg), col="purple", lwd=2, add=TRUE)#10
+
+
+```
+
+
+
+####3.2.2.4.Relativa
+
+El gráfico de vecino relativo es similar, aunque los diámetros de los círculos están determinados por la distancia entre los dos puntos.
+
+```{r sp24992212,echo=TRUE,out.width = '40%',fig.align="center"}
+### graficos matrices W
+
+par(mfrow=c(1, 2), mai=c(0,0,0,0))
+
+#Physical neighbours
+
+
+plot(barrios_geo$geometry,main="11.relative_nb_b")
+plot(relative_nb_b,st_coordinates(reg), col="gray", lwd=2, add=TRUE)#11
+
+plot(barrios_geo$geometry,main="12.relative_nb_w")
+plot(relative_nb_w,st_coordinates(reg), col="gray", lwd=2, add=TRUE)#12
+```
+
+
+
+###3.2.3.Vecinos a distancia o   K-nearest
+ Los vecindarios se generan en base la distancia entre vecinos, donde “k” se refiere al número de vecinos de una determinada locación, calculada como la distancia entre los puntos centrales de los polígonos. Se aplica usualmente cuando las áreas tienen diferentes tamaños para asegurarse que cada lugar tenga el mismo número de vecinos, independiente de cuán grande sean las áreas vecinas
+
+```{r sp2124992212,echo=TRUE,out.width = '40%',fig.align="center"}
+#Distance neighbours
+
+par(mfrow=c(2, 2), mai=c(0,0,0,0))
+
+plot(barrios_geo$geometry,main="13.knn1_nb_b")
+plot(knn1_nb_b,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#13
+
+plot(barrios_geo$geometry,main="14.knn1_nb_w")
+plot(knn1_nb_w,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#14
+
+plot(barrios_geo$geometry,main="15.knn2_nb_b")
+plot(knn2_nb_b,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#15
+
+
+plot(barrios_geo$geometry,main="16.knn2_nb_w")
+plot(knn2_nb_w,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#16
+
+
+plot(barrios_geo$geometry,main="17.knn3_nb_b")
+plot(knn3_nb_b,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#17
+
+
+plot(barrios_geo$geometry,main="18.knn3_nb_w")
+plot(knn3_nb_w,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#18
+
+plot(barrios_geo$geometry,main="19.knn4_nb_b")
+plot(knn4_nb_b,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#19
+
+plot(barrios_geo$geometry,main="20.knn4_nb_w")
+plot(knn4_nb_w,st_coordinates(reg), col="darkgreen", lwd=2, add=TRUE)#20
+
+
+```
+
+## 3.3. Moran`s I
+Para la medición de dependencia espacial se han propuesto numerosos
+estadísticos, uno de los más utilizados es el índice de Moran (1948), que se
+define en la fórmula siguiente:
+
+$$I=\frac{n}{\sum_{i=1}^{n}(y i-\bar{y})^{2}} \frac{\sum_{i=1}^{n} \sum_{j=1}^{n} w i j(y i-\bar{y})(y j-\bar{y})}{\sum_{i=1}^{n} \sum_{j=1}^{n} w i j}$$
+
+Esta fórmula es una versión expandida de la fórmula para computar el coeficiente de correlación, al cual se le agrega una matriz de pesos espaciales RSpatial mediante la cual se puede testear y visualizar la presencia de autocorrelación espacial.
+
+
+Esta estadística es utilizada para realizar un test que permite evaluar la significancia de la correlación espacial. Primero, realizaremos un test a nivel global que crea una sola medida de correlación espacial. Este test de Moran creará una medida de correlación entre -1 y 1 en donde:
+
+• 1 determina una correlación espacial positiva perfecta (que indica que nuestros datos están agrupados en clusters) 
+• 0 significa que nuestros datos están distribuidos aleatoriamente
+• -1 representa autocorrelación espacial negativa (valores disímiles están cercanos entre sí
+
+Utilizando la simulación de Monte Carlo en donde los valores son asignados aleatoriamente a los polígionos para computar el Moran’s I, lo cual es repetido varias veces para establecer una distribución de los valores esperados. Luego de esto, el valor observado del Moran’s I es comparado con la distribución simulada para ver cuán probable es que los valores observadores puedan ser considerados como aleatorios y así determinar si existe autocorrelación espacial significativa (Rspatial), se selecciona la Matriz W que maximiza el coeficiente de Moran 
+
+```{r sp410,echo=T}
+
+# selección
+
+mat=list(rook_nb_b,rook_nb_w,
+         queen_nb_b,queen_nb_w,
+         tri_nb_b,tri_nb_w,
+         soi_nb_b,soi_nb_w,
+         gabriel_nb_b,gabriel_nb_w,
+         relative_nb_b,relative_nb_w,
+         knn1_nb_b,knn1_nb_w,
+         knn2_nb_b,knn2_nb_w,
+         knn3_nb_b,knn3_nb_w,
+         knn4_nb_b,knn4_nb_w)
+aux=numeric(0)
+
+for(i in 1:length(mat))
+  options(warn = -1)
+{
+  aux[i]=EBImoran.mc(barrios_geo$robos,barrios_geo$HOGARES_NBI,mat[[i]],nsim=999,zero.policy=F)$"statistic"
+  which.max(aux)
+  mat[[which.max(aux)]]
+  }
+
+
+which.max(aux)
+
+
+
+
+#Defining W for mortality leukemia rate
+
+maux=numeric(0)
+for(i in 1:length(mat))
+options(warn = -1)
+{
+maux[i]=EBImoran.mc(barrios_geo$HOGARES_NBI,barrios_geo$HOGARES,mat[[i]],nsim=999,zero.policy=F)$"statistic"
+which.max(maux)
+mat[[which.max(maux)]]
+}
+
+which.max(maux)
+
+```
+
+```{r sp4991,echo=TRUE}
+
+moran.test(barrios_geo$residLR, mat[[which.max(aux)]], alternative="two.sided")#Validar el supuesto de independencia
+moran.test(barrios_geo$residLMR, mat[[which.max(maux)]], alternative="two.sided") #Validating independence assumption hogares_nbi
+moran.test(barrios_geo$robos, mat[[which.max(aux)]], alternative="two.sided")
+moran.test(barrios_geo$HOGARES_NBI,mat[[which.max(aux)]], alternative="two.sided")
+
+moran.test(barrios_geo$HOGARES_NBI, mat[[which.max(maux)]], alternative="two.sided")
+moran.test(barrios_geo$VIVIENDAS,mat[[which.max(maux)]], alternative="two.sided")
+moran.test(barrios_geo$HOGARES,mat[[which.max(maux)]], alternative="two.sided")
+
+
+for(i in 1:length(mat)){
+   aux[i]=moran.test(barrios_geo$HOGARES_NBI, mat[[i]], alternative="two.sided")$statistic
+}
+which.max(aux)
+mat[[which.max(aux)]]
+
+for(i in 1:length(mat)){
+   aux[i]=moran.test(barrios_geo$HOGARES, mat[[i]], alternative="two.sided")$statistic
+}
+which.max(aux)
+mat[[which.max(aux)]]
+
+for(i in 1:length(mat)){
+   aux[i]=moran.test(barrios_geo$VIVIENDAS, mat[[i]], alternative="two.sided")$statistic
+}
+which.max(aux)
+mat[[which.max(aux)]]
+
+
+```
+
+La matriz W que maximiza es entonces la matriz con k=4.
+
+
+Se realiza  un scatter plot para visualizar el tipo y fuerza de la correlación espacial en la distribución de nuestros datos.
+
+```{r spg499w1,echo=TRUE}
+
+moran.plot(barrios_geo$robos, listw =  knn4_nb_w)
+
+```
+
+
+
+En este mapa la curva del gráfico indica el valor del Moran’s I, es decir, la medida global de autocorrelación espacial de nuestros datos.Si bien el test de Moran  permite identificar si es que existe clustering a nivel global, no  permite identificar si existen clusters locales significantes en la variable que estamos analizando (Lansley & Cheschire, 2016, 78). Es por esto que realiza un test de Moran’s I a nivel local en donde se calculan los indicadores locales de asociación espacial para cada unidad de nuestros datos y se testea si es que esta relación es estadísticamente significativa, lo que nos entrega datos sobre los patrones geográficos de la relación de los datos espaciales y si existen desviaciones locales de los patrones globales de autocorrelación espacial.
+
+
+```{r spg4991,echo=TRUE,out.width = '40%',fig.align="center"}
+
+library(spdep)
+lcalmoran <- localmoran(x = barrios_geo$robos,listw = knn4_nb_b)
+mapa_moran <- cbind(barrios_geo,  lcalmoran )
+ggplot(mapa_moran)+
+  geom_sf(aes(fill = Ii))+
+  labs(fill = "Estadísitico Moran Local")
+
+```
+
+
+Este mapa  permite observar la variación en la autocorrelación a lo largo del espacio, pero no es posible identificar si los patrones geográficos de autocorrelación son clusters con valores altos o bajos, lo que  permitirá analizar el tipo de autocorrelación espacial que existe y su nivel de significancia. Para esto se  crea un mapa de clusters LISA, que creará una etiqueta basada en los tipos de relación que se comparte con sus vecinos (alta-alta, baja-alta, insignificante, etc) en relación a los valores de la variable que estamos analizando (Gini).
+
+
+
+## 3.4. Clusters
+
+```{r sp42,echo=T,out.width = '60%',fig.align="center"}
+
+for(i in 1:length(mat)){
+   aux[i]=moran.test(barrios_geo$robos, mat[[i]], alternative="two.sided")$statistic
+}
+which.max(aux)
+mat[[which.max(aux)]]
+
+
+
+data("barrios_geo")
+x <- barrios_geo$HOGARES_NBI
+y <- barrios_geo$robos
+#======================================================
+# Programming some functions
+
+# Bivariate Moran's I
+moran_I <- function(x, y = NULL, W){
+  if(is.null(y)) y = x
+  
+  xp <- (x - mean(x, na.rm=T))/sd(x, na.rm=T)
+  yp <- (y - mean(y, na.rm=T))/sd(y, na.rm=T)
+  W[which(is.na(W))] <- 0
+  n <- nrow(W)
+  
+  global <- (xp%*%W%*%yp)/(n - 1)
+  local  <- (xp*W%*%yp)
+  
+  list(global = global, local  = as.numeric(local))
+}
+
+#Permutations for the Bivariate Moran's I
+simula_moran <- function(x, y = NULL, W, nsims = 1000){
+  
+  if(is.null(y)) y = x
+  
+  n   = nrow(W)
+  IDs = 1:n
+  
+  xp <- (x - mean(x, na.rm=T))/sd(x, na.rm=T)
+  W[which(is.na(W))] <- 0
+  
+  global_sims = NULL
+  local_sims  = matrix(NA, nrow = n, ncol=nsims)
+  
+  ID_sample = sample(IDs, size = n*nsims, replace = T)
+  
+  y_s = y[ID_sample]
+  y_s = matrix(y_s, nrow = n, ncol = nsims)
+  y_s <- (y_s - apply(y_s, 1, mean))/apply(y_s, 1, sd)
+  
+  global_sims  <- as.numeric( (xp%*%W%*%y_s)/(n - 1) )
+  local_sims  <- (xp*W%*%y_s)
+  
+  list(global_sims = global_sims,
+       local_sims  = local_sims)
+}
+
+mat.w.mat <- nb2mat(mat[[which.max(aux)]]$neighbours,mat[[which.max(aux)]]$weights,zero.policy=TRUE)
+WTW=t(mat.w.mat)%*%mat.w.mat
+W  <- as(WTW, "symmetricMatrix")
+W  <- as.matrix(W)
+W  <- as.matrix(W/rowSums(W))
+W[which(is.na(W))] <- 0
+
+m   <- moran_I(x, y, W)
+m[[1]] # global value
+
+m_i <- m[[2]]  # local values
+
+local_sims <- simula_moran(x, y, W)$local_sims
+
+alpha <- .05  # for a 95% confidence interval
+probs <- c(alpha/2, 1-alpha/2)
+intervals <- t( apply(local_sims, 1, function(x) quantile(x, probs=probs)))
+sig        <- ( m_i < intervals[,1] )  | ( m_i > intervals[,2] )
+
+#======================================================
+# Preparing for plotting
+
+barrios_geo    <- st_as_sf(barrios_geo)
+barrios_geo$sig <- sig
+# Identifying the LISA patterns
+xp <- (x-mean(x))/sd(x)
+yp <- (y-mean(y))/sd(y)
+
+rob_hnbi <- as.character( interaction(xp > 0, W%*%yp > 0) ) 
+rob_hnbi<- rob_hnbi%>% 
+  str_replace_all("TRUE","High") %>% 
+  str_replace_all("FALSE","Low")
+rob_hnbi[barrios_geo$sig==0] <- "Not significant"
+barrios_geo$rob_hnbi<- rob_hnbi
+# Plotting############################# GRAFICA
+ggplot() + geom_sf(data=barrios_geo, aes(fill=rob_hnbi), color="NA") +
+  scale_fill_manual(values = c("red", "pink", "light blue", "dark blue", "grey95")) + 
+  theme_minimal()
+
+
+```
+
+```{r pressure56, echo=FALSE, fig.cap="A caption",out.width = '60%',fig.align="center"}
+knitr::include_graphics("~/Desktop/map1.png")
+```
+
+
+```{r pressure56ma3, echo=FALSE, fig.cap="A caption",out.width = '60%',fig.align="center"}
+knitr::include_graphics("~/Desktop/map2.png")
+```
+
+Este mapa nos entrega una mayor información sobre los patrones geográficos de autocorrelación espacial. Este mapa nos muestra si es que existen clusters, es decir, regiones en donde en su núcleo existe autocorrelación espacial positiva, por ende, nos muestra regiones clusterizadas más que lugares individuales. Es importante señalar que estos mapas no son significativos, sino que nos permiten encontrar lugares o relaciones que pueden ser interesantes para un análisis posterior.
+
+#4. Modelos
+
+##4.1. Vectores de Moran ajustados
+El enfoque del vector propio de Moran (Dray, Legendre y Peres-Neto 2006; Griffith y Peres-Neto 2006) involucró los patrones espaciales representados por mapas de vectores propios; Al elegir patrones ortogonales adecuados y agregarlos a un modelo lineal lineal o generalizado, la dependencia espacial presente en los residuos se puede trasladar al modelo.
+
+Utiliza la fuerza bruta para buscar el conjunto de vectores propios de la matriz MWM, donde
+
+$$\mathbf{M}=\mathbf{I}-\mathbf{X}\left(\mathbf{X}^{\mathrm{T}} \mathbf{X}\right)^{-1} \mathbf{X}^{\mathrm{T}}$$
+
+es una matriz de proyección simétrica e idempotente y W son los pesos espaciales. En la forma de retraso espacial de Filtrado espacial y en la forma GLM ME a continuación, X es un vector $n$ de unos, que es solo la intersección.
+
+```{r sp56t}
+MEpoisLR <- spatialreg::ME(robos~ HOGARES_NBI, data=barrios_geo ,family="poisson",listw=knn4_nb_w, alpha=0.2, verbose=TRUE)
+MoranEigenVLR=data.frame(fitted(MEpoisLR))
+summary(MoranEigenVLR)
+attach(MoranEigenVLR)
+glmbaseLRm <-glm(robos~ HOGARES_NBI+fitted(MEpoisLR) ,family = poisson, data=barrios_geo)
+summary(glmbaseLRm)
+anova(glmbaseLRm)
+
+
+MEpoisLMR <- spatialreg::ME(HOGARES_NBI~ HOGARES+VIVIENDAS, data=barrios_geo ,family="poisson",listw=knn4_nb_w, alpha=0.2, verbose=TRUE)
+MoranEigenVLMR=data.frame(fitted(MEpoisLMR))
+summary(MoranEigenVLMR)
+attach(MoranEigenVLMR)
+glmbaseLRmW <-glm(HOGARES_NBI~ HOGARES+VIVIENDAS+fitted(MEpoisLMR) ,family = poisson, data=barrios_geo)
+summary(glmbaseLRmW)
+
+```
+
+
+##4.2. Modelo de Retardo Espacial
+
+Estos modelos presentan la correlación espacial (dependencia) en la variable dependiente (Y ).
+Permiten a las observaciones de la variable dependiente Y en el área $i$ $(i=\)\(1, \ldots, n)$ depender de observaciones en áreas vecinas. El modelo de retardo espacial básico, llamado modelo autorregresivo espacial de primer orden (SAR), toma la forma muestral:
+
+$$y_{i}=\rho \sum_{j=1}^{n} W_{i j} y_{j}+\sum_{q=1}^{Q} x_{i q} \beta_{q}+\varepsilon_{i} \quad i=1, \cdots n$$
+
+donde el término error $\varepsilon_{i}$ es independiente e idénticamente distribuido. $W_{i j}$ es el elemento $(i, j)$ th de la matriz de pesos $n \times n$ . El escalar $\rho$ es un parámetro a estimar que determinará el nivel de relacíon autorregresiva espacial entre $y_{i}$ y $\sum_{j} W_{i j} y_{j}$ (combinación lineal de observaciones espacialmente relacionadas basadas en elementos distintos de cero en la $i$ -ésima fila de $\mathbf{W}$ ).
+
+
+```{r sp56tr}
+
+m1s = lagsarlm(glmbaseLR, data=barrios_geo, knn4_nb_w, tol.solve=1.0e-30)
+summary(m1s)
+
+m2s = lagsarlm(glmbaseLMR, data=barrios_geo, knn4_nb_w, tol.solve=1.0e-30)
+summary(m2s)
+
+```
+##4.3. Modelo de Durbin
+En algunos estudios puede sospecharse que la dependencia influye sobre la variable objetivo o dependiente a través de la propia variable objetivo y de las variables predictoras o explicativas. So puede construir un modelo tipo SAR, aumontado por variables explicativas espacialmonte retardadas:
+$$Y=\rho \mathbf{W} Y+\mathbf{X} \beta+\mathbf{W} \mathbf{X} \gamma+c$$
+donde \(X\) es la matriz \(n \times(Q-1)\) no constante de variables explicativas. El modelo puede reducire como:
+
+$$4Y=(I-\rho \mathbf{W})^{1}(\mathbf{X} \beta+\mathbf{W} \mathbf{X} \gamma+\varepsilon)$$
+
+con
+$$e \sim \mathcal{N}\left(0, \sigma^{2} I\right)$$
+donde \(\gamma\) es un vector \((Q-1) \times 1\) de parámetros que miden el inpacto marginal de las variables explicativas do observactones vecinas ( fireas) sobre la variable dopendiente
+Y. WX produce  variables explicativas retardadas espacialmente que reflejan un
+promedio de observaciones vecinas.
+
+```{r sp56trr}
+
+m1d = lagsarlm(glmbaseLR, data=barrios_geo, knn4_nb_w, Durbin=TRUE, tol.solve=1.0e-30)
+summary(m1d)
+
+m2d = lagsarlm(glmbaseLMR, data=barrios_geo, Durbin=TRUE ,knn4_nb_w, tol.solve=1.0e-30)
+summary(m2d)
+
+```
+
+##4.4. Modelo de Error Espacial
+
+Estos modelos explican la dependencia espacial en el término de error. La dependencia del error espacial puede surgir de variables latentes no observables que están correlacionadas espacialmente. También puede surgir de los límites del área que no reflejan con precisión la vecindad que dan lugar a las variables recopiladas para el análisis. La especificación más común es un proceso autorregresivo espacial de primer orden, dado por:
+
+$$\varepsilon_{1}=\lambda \sum_{j=1}^{n} W_{i j} \varepsilon_{j}+u_{i} \quad i=1, \cdots n$$
+
+donde \(\lambda\) es el parámetro autorregresivo, \(y u_{1}\) un termino alcatorio de error, que se asume  es independiente e identicamente distribuido. Si \(|\lambda|<1,\) entonces  queda:
+$$\varepsilon=(I-\lambda \mathbf{W})^{1} u$$
+
+Insertande esta ecuación en el modelo de regresion estandar obtenemos:
+$$Y=X 3+(1-\lambda W)+u$$
+
+con \(E\left[u u^{\prime}\right]=\sigma^{2} I,\).En consecuencia la matriz de varianza-corarianza del vector de errores aleatorio es:
+
+$$E\left[e e^{\prime},=\sigma^{2}(I-\lambda \mathbf{W})^{1}\left(I-\lambda \mathbf{W}^{2}\right)\right.$$
+
+El modelo  de error espacial (SEM) puede verse como
+una combinación de un modelo de regresión estándar con un modelo autorregresivo
+espacial en el término de error $\varepsilon$.
+
+```{r sp56trrt}
+
+m1e = errorsarlm(glmbaseLR, data=barrios_geo, knn4_nb_w,  na.action = na.omit,tol.solve=1.0e-30)
+summary(m1e)
+
+
+m2e = errorsarlm(glmbaseLMR, data=barrios_geo, knn4_nb_w,  na.action = na.omit,tol.solve=1.0e-30)
+summary(m2e)
+
+```
+
+#5. Comparación de modelos
+
+```{r COsp56trrt}
+
+alal1<-AIC( glmbaseLR,glmbaseLRm,m1s,m1d,m1e) 
+alal2<-AIC(glmbaseLMR,glmbaseLRmW,m2s,m2d,m2e)
+xtable(alal1)
+xtable(alal2)
+library(xtable)
+```
+
+ El mejor modelo para robos es el  Modelo de Retardo Espacial\\
+ El mejor modelo para Hogares_NBI es el Modelo de Error Espacial
+ 
+#6. Conclusiones
+
+
+
+# 7. Referencias
+
+https://rpubs.com/mpbohorquezc/614262
+
+Sarmiento-Barbieri, I., & University of Illinois. (2016). An Introduction to Spatial Econometrics in R. Recuperado de http://www.econ.uiuc.edu/~lab/workshop/Spatial_in_R.html
+
+Sarmiento-Barbieri, I., & University of Illinois. (2016). An Introduction to Spatial Econometrics in R. Recuperado de http://www.econ.uiuc.edu/~lab/workshop/Spatial_in_R.html
+
+
+Cliff, Andrew David, and J Keith Ord. 1973. Spatial Autocorrelation. Vol. 5. Pion London.
+
+  Anselin, Luc. 2003. “An Introduction to Spatial Regression Analysis in R.” Available at: Https://geodacenter.asu.edu/drupal_files/spdepintro.pdf.
+  
+  https://idus.us.es/bitstream/handle/11441/81660/Borrego%20S%E1nchez%20Jos%E9%20%C1ngel%20TFG.pdf;jsessionid=402DA454A8BB0963AF3718482A2D0814?sequence=1&isAllowed=y
+  
+  https://rstudio-pubs-static.s3.amazonaws.com/111362_0646973a5f6e4415ad60e35858b445cc.html
+  
+  http://www.saree.com.mx/bEb/Capitulo15_teoria.pdf
+  
+  https://arcruz0.github.io/libroadp/mapas.html
+  
+#8. Anexos
+
+Se realiza un informe en POWER BI, para interactuar con los datos: https://app.powerbi.com/view?r=eyJrIjoiYzkxODQ5MGItNTlhYi00MGU5LTg1NWEtMTY4ZDZmMmMyZjU0IiwidCI6Ijg3YjY4ZjdmLTI5NGUtNGNmYS1iYjFhLTEzOGE3NTE4OGRlOCJ9
+
+también es importante mencionar que Buenos Aires cuenta con una plataforma digital que lleva un control de los robos: https://mapa.seguridadciudad.gob.ar/
+
+
+
+
+

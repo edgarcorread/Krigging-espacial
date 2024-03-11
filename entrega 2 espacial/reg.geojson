@@ -1,0 +1,821 @@
+{
+   "type": "FeatureCollection",
+   "features": [
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.493876,-34.595809 ]
+    },
+    "properties": {
+    "id":442968,
+    "fecha":"2019-01-02",
+    "franja_horaria":16,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":15,
+    "barrio":"AgronomÃ­a"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.421417,-34.607266 ]
+    },
+    "properties": {
+    "id":488345,
+    "fecha":"2019-01-01",
+    "franja_horaria":5,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":5,
+    "barrio":"Almagro"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.398225,-34.604579 ]
+    },
+    "properties": {
+    "id":376245,
+    "fecha":"2019-01-01",
+    "franja_horaria":4,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":3,
+    "barrio":"Balvanera"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.392894,-34.650786 ]
+    },
+    "properties": {
+    "id":454019,
+    "fecha":"2019-01-01",
+    "franja_horaria":13,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"Robo Automotor",
+    "cantidad_registrada":1,
+    "comuna":4,
+    "barrio":"Barracas"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.431048,-34.548135 ]
+    },
+    "properties": {
+    "id":376476,
+    "fecha":"2019-01-01",
+    "franja_horaria":0,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":13,
+    "barrio":"Belgrano"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.35938,-34.634491 ]
+    },
+    "properties": {
+    "id":431424,
+    "fecha":"2019-01-01",
+    "franja_horaria":16,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":4,
+    "barrio":"Boca"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.424506,-34.631212 ]
+    },
+    "properties": {
+    "id":406848,
+    "fecha":"2019-01-01",
+    "franja_horaria":9,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":5,
+    "barrio":"Boedo"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.439965,-34.613659 ]
+    },
+    "properties": {
+    "id":478796,
+    "fecha":"2019-01-01",
+    "franja_horaria":23,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":6,
+    "barrio":"Caballito"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.439392,-34.588108 ]
+    },
+    "properties": {
+    "id":371604,
+    "fecha":"2019-01-01",
+    "franja_horaria":8,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":15,
+    "barrio":"Chacarita"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.472605,-34.560968 ]
+    },
+    "properties": {
+    "id":442883,
+    "fecha":"2019-01-01",
+    "franja_horaria":8,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":12,
+    "barrio":"Coghlan"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.448166,-34.573195 ]
+    },
+    "properties": {
+    "id":392756,
+    "fecha":"2019-01-01",
+    "franja_horaria":12,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":13,
+    "barrio":"Colegiales"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.384401,-34.623492 ]
+    },
+    "properties": {
+    "id":437418,
+    "fecha":"2019-01-01",
+    "franja_horaria":21,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":1,
+    "barrio":"ConstituciÃ³n"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.442125,-34.649498 ]
+    },
+    "properties": {
+    "id":374827,
+    "fecha":"2019-01-01",
+    "franja_horaria":12,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":7,
+    "barrio":"Flores"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.483975,-34.631877 ]
+    },
+    "properties": {
+    "id":425359,
+    "fecha":"2019-01-01",
+    "franja_horaria":16,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"Hurto Automotor",
+    "cantidad_registrada":1,
+    "comuna":10,
+    "barrio":"Floresta"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.513859,-34.649827 ]
+    },
+    "properties": {
+    "id":426152,
+    "fecha":"2019-01-01",
+    "franja_horaria":6,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":9,
+    "barrio":"Liniers"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.505709,-34.654463 ]
+    },
+    "properties": {
+    "id":376001,
+    "fecha":"2019-01-01",
+    "franja_horaria":18,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":9,
+    "barrio":"Mataderos"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.371996,-34.611301 ]
+    },
+    "properties": {
+    "id":473105,
+    "fecha":"2019-01-01",
+    "franja_horaria":19,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":1,
+    "barrio":"Monserrat"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.505509,-34.620809 ]
+    },
+    "properties": {
+    "id":388830,
+    "fecha":"2019-01-02",
+    "franja_horaria":18,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"Hurto Automotor",
+    "cantidad_registrada":1,
+    "comuna":10,
+    "barrio":"Monte Castro"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.465259,-34.545757 ]
+    },
+    "properties": {
+    "id":408278,
+    "fecha":"2019-01-01",
+    "franja_horaria":4,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"Hurto Automotor",
+    "cantidad_registrada":1,
+    "comuna":13,
+    "barrio":"NuÃ±ez"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.404748,-34.648387 ]
+    },
+    "properties": {
+    "id":374556,
+    "fecha":"2019-01-01",
+    "franja_horaria":12,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":4,
+    "barrio":"Nueva Pompeya"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.408911,-34.559658 ]
+    },
+    "properties": {
+    "id":372170,
+    "fecha":"2019-01-01",
+    "franja_horaria":9,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":14,
+    "barrio":"Palermo"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.48641,-34.648983 ]
+    },
+    "properties": {
+    "id":381633,
+    "fecha":"2019-01-01",
+    "franja_horaria":0,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"Hurto Automotor",
+    "cantidad_registrada":1,
+    "comuna":9,
+    "barrio":"Parque Avellaneda"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.441477,-34.643576 ]
+    },
+    "properties": {
+    "id":432185,
+    "fecha":"2019-01-01",
+    "franja_horaria":20,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":7,
+    "barrio":"Parque Chacabuco"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.47406,-34.590009 ]
+    },
+    "properties": {
+    "id":464432,
+    "fecha":"2019-01-03",
+    "franja_horaria":18,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":15,
+    "barrio":"Parque Chas"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.397123,-34.633161 ]
+    },
+    "properties": {
+    "id":437571,
+    "fecha":"2019-01-01",
+    "franja_horaria":2,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"Robo Automotor",
+    "cantidad_registrada":1,
+    "comuna":4,
+    "barrio":"Parque Patricios"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.465943,-34.597788 ]
+    },
+    "properties": {
+    "id":436089,
+    "fecha":"2019-01-02",
+    "franja_horaria":11,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":15,
+    "barrio":"Paternal"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.356694,-34.616692 ]
+    },
+    "properties": {
+    "id":449183,
+    "fecha":"2019-01-01",
+    "franja_horaria":12,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":1,
+    "barrio":"Puerto Madero"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.399038,-34.598285 ]
+    },
+    "properties": {
+    "id":375847,
+    "fecha":"2019-01-01",
+    "franja_horaria":3,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":2,
+    "barrio":"Recoleta"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.371488,-34.598416 ]
+    },
+    "properties": {
+    "id":372543,
+    "fecha":"2019-01-01",
+    "franja_horaria":9,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":1,
+    "barrio":"Retiro"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.489087,-34.551695 ]
+    },
+    "properties": {
+    "id":418158,
+    "fecha":"2019-01-01",
+    "franja_horaria":20,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":12,
+    "barrio":"Saavedra"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.395344,-34.627606 ]
+    },
+    "properties": {
+    "id":378353,
+    "fecha":"2019-01-01",
+    "franja_horaria":20,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"Hurto Automotor",
+    "cantidad_registrada":1,
+    "comuna":3,
+    "barrio":"San CristÃ³bal"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.373511,-34.600952 ]
+    },
+    "properties": {
+    "id":448047,
+    "fecha":"2019-01-01",
+    "franja_horaria":3,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":1,
+    "barrio":"San NicolÃ¡s"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.371395,-34.620552 ]
+    },
+    "properties": {
+    "id":383096,
+    "fecha":"2019-01-01",
+    "franja_horaria":13,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":1,
+    "barrio":"San Telmo"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.492445,-34.628634 ]
+    },
+    "properties": {
+    "id":414363,
+    "fecha":"2019-01-02",
+    "franja_horaria":21,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":10,
+    "barrio":"VÃ©lez SÃ¡rsfield"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.523222,-34.625531 ]
+    },
+    "properties": {
+    "id":425523,
+    "fecha":"2019-01-05",
+    "franja_horaria":13,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":10,
+    "barrio":"Versalles"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.439937,-34.600707 ]
+    },
+    "properties": {
+    "id":435656,
+    "fecha":"2019-01-01",
+    "franja_horaria":6,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":15,
+    "barrio":"Villa Crespo"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.483507,-34.599154 ]
+    },
+    "properties": {
+    "id":451688,
+    "fecha":"2019-01-01",
+    "franja_horaria":13,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":11,
+    "barrio":"Villa del Parque"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.519116,-34.589282 ]
+    },
+    "properties": {
+    "id":371693,
+    "fecha":"2019-01-01",
+    "franja_horaria":7,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":11,
+    "barrio":"Villa Devoto"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.461782,-34.612442 ]
+    },
+    "properties": {
+    "id":372542,
+    "fecha":"2019-01-02",
+    "franja_horaria":15,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":11,
+    "barrio":"Villa Gral. Mitre"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.466394,-34.674789 ]
+    },
+    "properties": {
+    "id":482809,
+    "fecha":"2019-01-01",
+    "franja_horaria":12,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":8,
+    "barrio":"Villa Lugano"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.512368,-34.630498 ]
+    },
+    "properties": {
+    "id":382986,
+    "fecha":"2019-01-01",
+    "franja_horaria":9,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":10,
+    "barrio":"Villa Luro"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.467551,-34.576873 ]
+    },
+    "properties": {
+    "id":384603,
+    "fecha":"2019-01-01",
+    "franja_horaria":1,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":15,
+    "barrio":"Villa Ortuzar"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.50914,-34.572629 ]
+    },
+    "properties": {
+    "id":396618,
+    "fecha":"2019-01-01",
+    "franja_horaria":21,
+    "tipo_delito":"Hurto (sin violencia)",
+    "subtipo_delito":"Hurto Automotor",
+    "cantidad_registrada":1,
+    "comuna":12,
+    "barrio":"Villa PueyrredÃ³n"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.526132,-34.614873 ]
+    },
+    "properties": {
+    "id":487438,
+    "fecha":"2019-01-04",
+    "franja_horaria":16,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":10,
+    "barrio":"Villa Real"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.464704,-34.690814 ]
+    },
+    "properties": {
+    "id":373644,
+    "fecha":"2019-01-02",
+    "franja_horaria":17,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":8,
+    "barrio":"Villa Riachuelo"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.47791,-34.618128 ]
+    },
+    "properties": {
+    "id":446175,
+    "fecha":"2019-01-02",
+    "franja_horaria":20,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":11,
+    "barrio":"Villa Santa Rita"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.437025,-34.656782 ]
+    },
+    "properties": {
+    "id":480436,
+    "fecha":"2019-01-01",
+    "franja_horaria":21,
+    "tipo_delito":"Robo (con violencia)",
+    "subtipo_delito":"",
+    "cantidad_registrada":1,
+    "comuna":8,
+    "barrio":"Villa Soldati"
+    }
+  },
+  {
+    "type": "Feature",
+    "geometry": {
+       "type": "Point",
+       "coordinates":  [ -58.490436,-34.583403 ]
+    },
+    "properties": {
+    "id":376020,
+    "fecha":"2019-01-01",
+    "franja_horaria":18,
+    "tipo_delito":"Lesiones",
+    "subtipo_delito":"Siniestro Vial",
+    "cantidad_registrada":1,
+    "comuna":12,
+    "barrio":"Villa Urquiza"
+    }
+  }
+]
+}
